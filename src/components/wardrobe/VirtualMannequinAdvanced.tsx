@@ -11,7 +11,7 @@ import { useTranslation } from '@/lib/i18n/LanguageProvider'
 interface ClothingItem {
   id: string
   name: string
-  category: 'tops' | 'bottoms' | 'shoes' | 'accessories'
+  category: 'tops' | 'bottoms' | 'shoes' | 'accessories' | 'hats' | 'glasses'
   image: string
   color: string
   season: string[]
@@ -58,12 +58,18 @@ export default function VirtualMannequinAdvanced({ measurements, clothingItems, 
   const [selectedTop, setSelectedTop] = useState<ClothingItem | null>(null)
   const [selectedBottom, setSelectedBottom] = useState<ClothingItem | null>(null)
   const [selectedShoes, setSelectedShoes] = useState<ClothingItem | null>(null)
+  const [selectedAccessories, setSelectedAccessories] = useState<ClothingItem | null>(null)
+  const [selectedHat, setSelectedHat] = useState<ClothingItem | null>(null)
+  const [selectedGlasses, setSelectedGlasses] = useState<ClothingItem | null>(null)
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
 
   const tops = clothingItems.filter(item => item.category === 'tops')
   const bottoms = clothingItems.filter(item => item.category === 'bottoms')
   const shoes = clothingItems.filter(item => item.category === 'shoes')
+  const accessories = clothingItems.filter(item => item.category === 'accessories')
+  const hats = clothingItems.filter(item => item.category === 'hats')
+  const glasses = clothingItems.filter(item => item.category === 'glasses')
 
   const handleSizeChange = (size: Size) => {
     setSelectedSize(size)
@@ -193,8 +199,33 @@ export default function VirtualMannequinAdvanced({ measurements, clothingItems, 
                 transformOrigin: 'center'
               }}
             >
+              {/* Chapéu/Boné */}
+              {selectedHat && (
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-10">
+                  <img 
+                    src={selectedHat.image} 
+                    alt={selectedHat.name}
+                    className="w-20 h-16 object-cover rounded-lg"
+                  />
+                  <Badge className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-orange-500 text-xs">
+                    {selectedHat.name}
+                  </Badge>
+                </div>
+              )}
+
               {/* Cabeça */}
-              <div className="w-16 h-20 bg-gradient-to-b from-amber-200 to-amber-300 rounded-full mx-auto mb-2" />
+              <div className="w-16 h-20 bg-gradient-to-b from-amber-200 to-amber-300 rounded-full mx-auto mb-2 relative">
+                {/* Óculos */}
+                {selectedGlasses && (
+                  <div className="absolute top-1/3 left-1/2 -translate-x-1/2 z-10">
+                    <img 
+                      src={selectedGlasses.image} 
+                      alt={selectedGlasses.name}
+                      className="w-14 h-8 object-cover"
+                    />
+                  </div>
+                )}
+              </div>
               
               {/* Corpo Superior */}
               <div 
@@ -268,16 +299,42 @@ export default function VirtualMannequinAdvanced({ measurements, clothingItems, 
                 )}
               </div>
 
-              {/* Pés */}
+              {/* Pés/Sapatos */}
               <div className="flex gap-4 justify-center mt-2">
-                <div className="w-12 h-8 bg-gray-600 dark:bg-gray-400 rounded-lg" />
-                <div className="w-12 h-8 bg-gray-600 dark:bg-gray-400 rounded-lg" />
+                {selectedShoes ? (
+                  <div className="relative">
+                    <img 
+                      src={selectedShoes.image} 
+                      alt={selectedShoes.name}
+                      className="w-24 h-16 object-cover rounded-lg"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className="w-12 h-8 bg-gray-600 dark:bg-gray-400 rounded-lg" />
+                    <div className="w-12 h-8 bg-gray-600 dark:bg-gray-400 rounded-lg" />
+                  </>
+                )}
               </div>
 
               {/* Badge de Tamanho */}
               <Badge className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500">
                 Tamanho {selectedSize}
               </Badge>
+
+              {/* Acessórios */}
+              {selectedAccessories && (
+                <div className="absolute -right-12 top-1/4">
+                  <img 
+                    src={selectedAccessories.image} 
+                    alt={selectedAccessories.name}
+                    className="w-16 h-16 object-cover rounded-full border-2 border-purple-500"
+                  />
+                  <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-purple-500 text-xs">
+                    Acessório
+                  </Badge>
+                </div>
+              )}
             </div>
           </div>
 
@@ -313,6 +370,82 @@ export default function VirtualMannequinAdvanced({ measurements, clothingItems, 
                       selectedBottom?.id === item.id 
                         ? 'border-pink-500 ring-2 ring-pink-500' 
                         : 'border-transparent hover:border-pink-300'
+                    }`}
+                  >
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">Sapatos</label>
+              <div className="grid grid-cols-4 gap-2">
+                {shoes.slice(0, 4).map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setSelectedShoes(item)}
+                    className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                      selectedShoes?.id === item.id 
+                        ? 'border-blue-500 ring-2 ring-blue-500' 
+                        : 'border-transparent hover:border-blue-300'
+                    }`}
+                  >
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">Acessórios</label>
+              <div className="grid grid-cols-4 gap-2">
+                {accessories.slice(0, 4).map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setSelectedAccessories(item)}
+                    className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                      selectedAccessories?.id === item.id 
+                        ? 'border-indigo-500 ring-2 ring-indigo-500' 
+                        : 'border-transparent hover:border-indigo-300'
+                    }`}
+                  >
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">Chapéus/Bonés</label>
+              <div className="grid grid-cols-4 gap-2">
+                {hats.slice(0, 4).map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setSelectedHat(item)}
+                    className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                      selectedHat?.id === item.id 
+                        ? 'border-orange-500 ring-2 ring-orange-500' 
+                        : 'border-transparent hover:border-orange-300'
+                    }`}
+                  >
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">Óculos</label>
+              <div className="grid grid-cols-4 gap-2">
+                {glasses.slice(0, 4).map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setSelectedGlasses(item)}
+                    className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                      selectedGlasses?.id === item.id 
+                        ? 'border-teal-500 ring-2 ring-teal-500' 
+                        : 'border-transparent hover:border-teal-300'
                     }`}
                   >
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />

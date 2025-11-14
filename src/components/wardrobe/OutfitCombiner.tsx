@@ -17,7 +17,7 @@ import { authService } from '@/lib/auth'
 interface ClothingItem {
   id: string
   name: string
-  category: 'tops' | 'bottoms' | 'shoes' | 'accessories'
+  category: 'tops' | 'bottoms' | 'shoes' | 'accessories' | 'hats' | 'glasses'
   image: string
   color: string
   season: string[]
@@ -65,7 +65,9 @@ export default function OutfitCombiner({
     { key: 'tops' as const, label: 'Blusas/Camisas', icon: '👕' },
     { key: 'bottoms' as const, label: 'Calças/Saias', icon: '👖' },
     { key: 'shoes' as const, label: 'Sapatos', icon: '👟' },
-    { key: 'accessories' as const, label: 'Acessórios', icon: '👜' }
+    { key: 'accessories' as const, label: 'Acessórios', icon: '👜' },
+    { key: 'hats' as const, label: 'Chapéus/Bonés', icon: '🧢' },
+    { key: 'glasses' as const, label: 'Óculos', icon: '🕶️' }
   ]
 
   const seasons = ['Verão', 'Outono', 'Inverno', 'Primavera']
