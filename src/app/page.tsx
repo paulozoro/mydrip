@@ -18,7 +18,7 @@ import { authService } from '@/lib/auth'
 interface ClothingItem {
   id: string
   name: string
-  category: 'tops' | 'bottoms' | 'shoes' | 'accessories' | 'hats' | 'glasses'
+  category: 'tops' | 'bottoms' | 'shoes' | 'accessories'
   image: string
   color: string
   season: string[]
@@ -147,9 +147,7 @@ export default function MyDripApp() {
       tops: clothingItems.filter(item => item.category === 'tops').length,
       bottoms: clothingItems.filter(item => item.category === 'bottoms').length,
       shoes: clothingItems.filter(item => item.category === 'shoes').length,
-      accessories: clothingItems.filter(item => item.category === 'accessories').length,
-      hats: clothingItems.filter(item => item.category === 'hats').length,
-      glasses: clothingItems.filter(item => item.category === 'glasses').length
+      accessories: clothingItems.filter(item => item.category === 'accessories').length
     }
   }
 

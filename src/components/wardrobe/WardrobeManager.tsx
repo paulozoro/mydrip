@@ -16,7 +16,7 @@ import { useTranslation } from '@/lib/i18n/LanguageProvider'
 interface ClothingItem {
   id: string
   name: string
-  category: 'tops' | 'bottoms' | 'shoes' | 'accessories' | 'hats' | 'glasses'
+  category: 'tops' | 'bottoms' | 'shoes' | 'accessories'
   image: string
   color: string
   season: string[]
@@ -53,9 +53,7 @@ export default function WardrobeManager({ clothingItems, onAddItem, onRemoveItem
     { value: 'tops', label: t.tops, icon: '👕' },
     { value: 'bottoms', label: t.bottoms, icon: '👖' },
     { value: 'shoes', label: t.shoes, icon: '👟' },
-    { value: 'accessories', label: t.accessories, icon: '👜' },
-    { value: 'hats', label: 'Chapéus/Bonés', icon: '🧢' },
-    { value: 'glasses', label: 'Óculos', icon: '🕶️' }
+    { value: 'accessories', label: t.accessories, icon: '👜' }
   ]
 
   const seasons = [t.summer, t.autumn, t.winter, t.spring]
@@ -124,7 +122,7 @@ export default function WardrobeManager({ clothingItems, onAddItem, onRemoveItem
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map(category => {
               const count = clothingItems.filter(item => item.category === category.value).length
               return (
